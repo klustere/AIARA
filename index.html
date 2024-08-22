@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Scribble&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<title>AIARA 0.69</title>
+<style>
+  body {
+    position: relative; /* Ensure relative positioning for the container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+    background-color: rgb(202, 168, 168); /* Adding black background */
+    color: white; /* Set text color to white */
+    font-size: 40px; /* Set font size */
+    font-weight: bold; /* Set font weight */
+    font-family: "Montserrat", sans-serif; /* Set font family */
+  }
+  #headd {
+    position: absolute;
+    top : 10%;
+    /* border: 10px solid; */
+    display: table;
+  }
+  #hello-text {
+    letter-spacing: 8px;
+    margin-bottom: 30px; /* Add some bottom margin to separate from gif */
+  }
+  #robot-text {
+    text-align: center;
+    font-size: 22px; /* Adjust font size for robot text */
+    margin-top: -20px; /* Adjust margin to bring it closer to AIARA text */
+  }
+  #gif-container {
+  margin-bottom: 20px;
+  position: absolute; /* Change to absolute positioning */
+  left: 20%; /* Position the container 10% from the left */
+  top: 50%; /* Position vertically in the middle */
+  transform: translateY(-50%); /* Center vertically */
+}
+  #gif-container img {
+    border-radius: 50%; /* Make the image circular */
+    border: 7px solid transparent; /* Add a transparent border with increased width */
+    animation: glow 1.5s infinite alternate; /* Apply the glow animation */
+  }
+  #processedTextContainer {
+    overflow-y: auto;
+    /* background-color: aliceblue; */
+    padding: 20px;
+  }
+
+#subtitle-text {
+  font-size: 20px;
+  color: #333;
+  font-weight: lighter;
+}
+
+#querybox {
+  font-size: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+  #text-box {
+    padding: 20px;
+    background-color: #000000; /* Set background color */
+    border-radius: 10px; /* Adjust border radius */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add box shadow */
+    text-align: center; /* Center text */
+    max-width: 700px; /* Limit width */
+    margin-top: 20px; /* Adjust margin top */
+    border: 3px solid white; /* Set border color */
+    animation: glow 1.5s infinite alternate;
+  }
+  @keyframes glow {
+    from {
+      border-color: purple; /* Set initial border color to purple */
+      box-shadow: 0 0 10px purple; /* Add box shadow to create glowing effect */
+    }
+    to {
+      border-color: magenta; /* Set final border color to magenta */
+      box-shadow: 0 0 20px magenta; /* Increase box shadow size for stronger glow */
+    }
+  }
+  @keyframes glow1 {
+    from {
+      border-color: rgb(255, 255, 255); /* Set initial border color to purple */
+      box-shadow: 0 0 10px rgb(255, 255, 255); /* Add box shadow to create glowing effect */
+    }
+    to {
+      border-color: magenta; /* Set final border color to magenta */
+      box-shadow: 0 0 20px magenta; /* Increase box shadow size for stronger glow */
+    }
+  }
+  #infobox {
+  border-radius: 25px;
+  margin-bottom: 20px;
+  overflow: auto;
+  position: absolute; /* Change to absolute positioning */
+  right: 15%; /* Position the container 10% from the left */
+  top: 50%; /* Position vertically in the middle */
+  width: 18cm; /* Set the width of the container */
+  height: 9cm;
+  transform: translateY(-50%); /* Center vertically */
+  padding-left: 2%;
+  padding-bottom: 2%;
+  padding-right: 2%;
+  border: 5px solid rgb(255, 255, 255);
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+#infobox::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #infobox::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+  }
+
+  #infobox::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  #infobox::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  /* Style for the webcam container */
+  #webcamContainer {
+  /* position: fixed; 
+  top: 50%;  */
+   /* Center vertically using a translation */
+  /* Position the container 10px from the right edge */
+  position: relative;
+  width: 18cm; /* Set the width of the container */
+  height: auto; /* Automatically adjust height */
+  z-index: 999; /* Ensure it's above other elements */
+  top: 15%;
+  left: 50%;
+  margin-right: -50%;
+  
+  border-radius: 10px; /* Add border-radius for curved corners */
+  overflow: hidden; 
+  transform: translate(-50%, -50%)
+ 
+}
+
+
+  /* Style for the video element */
+  video {
+    width: 100%; /* Ensure the video fills the container */
+    height: 100%; /* Ensure the video fills the container */
+  }
+
+  /* Style for the recording button */
+  #accessButton {
+    position: absolute;
+    top : 70%;
+    right: 16%;
+    background-color: blue; /* Set background color to blue */
+    color: white; /* Set text color to white */
+    border: none; /* Remove border */
+    padding: 10px 20px; /* Add padding */
+    border-radius: 5px; /* Add border radius */
+    cursor: pointer; /* Set cursor to pointer */
+    margin-top: 10px; /* Add margin */
+    font-size: 16px; /* Adjust font size */
+  }
+
+  /* Change button color on hover */
+  #accessButton:hover {
+    background-color: darkblue; /* Darken background color on hover */
+  }
+
+  #cancelButton {
+    position: absolute;
+    top : 70%;
+    right: 25%;
+    background-color: rgb(255, 39, 39); /* Set background color to blue */
+    color: white; /* Set text color to white */
+    border: none; /* Remove border */
+    padding: 10px 20px; /* Add padding */
+    border-radius: 5px; /* Add border radius */
+    cursor: pointer; /* Set cursor to pointer */
+    margin-top: 10px; /* Add margin */
+    font-size: 16px; /* Adjust font size */
+  }
+
+  /* Change button color on hover */
+  #cancelButton:hover {
+    background-color: rgb(139, 0, 7); /* Darken background color on hover */
+  }
+
+  #loading-container {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 65%;
+      right : 53.5%;
+    }
+
+    #loading-circle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 4px solid rgb(248, 227, 227);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: rotate 1s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+</style>
+
+<script>
+  let webcamStream; // To store the webcam stream
+  let microphoneStream; // To store the microphone stream
+  let mediaRecorder; // To handle media recording
+  let recordedChunks = []; // To store recorded chunks
+  let isRecording = false;
+  let isCancel = false;
+  let videoElement; // To store the video element
+  
+function speakText(text) {
+  // const textInput = document.getElementById('text-input');
+  if (text.trim() !== '') {
+    const utterance = new SpeechSynthesisUtterance(text);
+    const subtitleText = document.getElementById('subtitle-text');
+
+    utterance.onstart = () => {
+      subtitleText.textContent = '';
+    };
+
+    utterance.onboundary = (event) => {
+      const currentText = text.substring(0, event.charIndex);
+      subtitleText.textContent = currentText;
+    };
+
+    utterance.onend = () => {
+      subtitleText.textContent = text;
+    };
+    utterance.voice = speechSynthesis.getVoices()[4];
+    speechSynthesis.speak(utterance);
+  }
+}
+  // Function to display GIF based on user input
+  function toggleRecording() {
+    const webcamContainer = document.getElementById('webcamContainer');
+    const cancelButton = document.getElementById('cancelButton')
+    const load = document.getElementById('loading-container');
+    if (!isRecording) {
+        // Check if the webcam container is hidden, and make it visible if it is
+        if (webcamContainer.style.display === 'none') {
+            webcamContainer.style.display = 'block';
+        }
+
+        // Check if the browser supports getUserMedia
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // Request access to the webcam and microphone
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then(function(stream) {
+                    // Remove any existing video element
+                    if (videoElement) {
+                        videoElement.remove();
+                    }
+
+                    // Store the webcam and microphone streams
+                    webcamStream = new MediaStream();
+                    microphoneStream = new MediaStream();
+                    stream.getTracks().forEach(track => {
+                        if (track.kind === 'video') {
+                            webcamStream.addTrack(track);
+                        } else if (track.kind === 'audio') {
+                            microphoneStream.addTrack(track);
+                        }
+                    });
+
+                    // Create a video element to display the webcam stream
+                    videoElement = document.createElement('video');
+                    videoElement.srcObject = webcamStream;
+                    videoElement.autoplay = true;
+                    videoElement.setAttribute('playsinline', ''); // For iOS
+                    webcamContainer.appendChild(videoElement);
+
+                    // Initialize MediaRecorder with both streams
+                    const combinedStream = new MediaStream([...webcamStream.getTracks(), ...microphoneStream.getTracks()]);
+                    mediaRecorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm' });
+
+                    // Add event listeners for recording
+                    mediaRecorder.ondataavailable = function(event) {
+                        if (event.data.size > 0) {
+                            recordedChunks.push(event.data);
+                        }
+                    };
+                    mediaRecorder.onstart = function() {
+                        // Change GIF to thinking
+                        cancelButton.style.display = "inline-block";
+                        displayThinkingGIF();
+                    };
+                    mediaRecorder.onstop = async function() {
+                        if (recordedChunks.length === 0 || isCancel) {
+                            console.log('No recorded video available');
+                            recordedChunks = [];
+                            displayRestingGIF();
+                            isCancel = false;
+                            return;
+                        } 
+
+                        cancelButton.style.display = "none";
+                        load.style.display = "flex";
+                        console.log(recordedChunks.length, isRecording);
+
+                        // Create a Blob from recorded chunks (video with audio)
+                        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+
+                        // Upload the Blob (recorded video with audio) to the backend server
+                     
+                     
+                        const formData = new FormData();
+                        formData.append('videoFile', blob, 'recorded-video.webm');
+                        recordedChunks = [];
+                        isRecording = false;
+                        document.getElementById('accessButton').innerText = 'Start Recording';
+
+                            // Stop webcam and microphone tracks
+                        webcamStream.getTracks().forEach(track => track.stop());
+                        microphoneStream.getTracks().forEach(track => track.stop());
+                         // Hide webcam container
+                        webcamContainer.style.display = 'none';
+                        document.getElementById("infobox").style.animation= "glow1 1.5s infinite alternate";
+                        try {
+                            const response = await fetch('http://localhost:3000/uploadVideo', {
+                                method: 'POST',
+                                body: formData
+                            });
+
+                            if (response.ok) {
+                            
+                                console.log('Video with audio uploaded successfully');
+                                // displayRestingGIF();
+                                const responseData = await response.json();
+                                console.log("this resp : " + responseData.processedText);
+                                //const processedTextResponse = await fetch('http://localhost:3000/getProcessedText');
+                                // const processedText = responseData.processedText;
+                                const query = responseData.processedText;
+                                const qbox = document.getElementById('querybox');
+                                document.getElementById("subtitle-text").textContent = "";
+                                qbox.textContent = query;
+                  
+                                const processedTextResponse = await fetch('http://localhost:3000/getProcessedText');
+                                const proText = await processedTextResponse.text();
+                                document.getElementById("infobox").style.animation= "none";
+                                load.style.display = "none";
+                                const gemresp = proText.split("|")[2];
+                                // const query = processedText.split("|")[0];
+                                const emo = (proText.split("|")[1]).toLowerCase();
+                                
+                                console.log(gemresp)
+                                // const processedTextContainer = document.getElementById('processedTextContainer');
+                                // processedTextContainer.textContent = processedText;
+                                const voices = speechSynthesis.getVoices();
+                                if (emo.includes("neutral")) {
+                                  displayNoneGIF();
+                                } else if(emo.includes("happy")) {
+                                  displayHappyGIF();
+                                } else if (emo.includes("sad")) {
+                                  displaySadGIF();
+                                } else if (emo.includes("laughing")) {
+                                  displayLaughGIF();
+                                }
+                                speakText(gemresp);
+                                // Optionally, handle response from backend here
+                            } else {
+                                console.error('Failed to upload video with audio:', response.statusText);
+                            }
+                        } catch (error) {
+                            console.error('Error uploading video with audio:', error);
+                        } finally {
+                            // Clear recordedChunks array after sending
+                            
+
+                            // Change GIF to resting face
+                            
+                           
+                        }
+                    };
+
+                    // Start recording
+                    mediaRecorder.start();
+                     isRecording = true;
+                    document.getElementById('accessButton').innerText = 'Stop Recording';
+                })
+                .catch(function(error) {
+                    console.error('Error accessing the webcam and microphone: ', error);
+                });
+        } else {
+            alert('Sorry, your browser does not support webcam and microphone access.');
+        }
+    } else {
+        mediaRecorder.stop();
+        isRecording = false;
+    }
+}
+
+function cancelRecording() {
+        if (isRecording) {
+            // Stop recording
+            recordedChunks = [];
+            isCancel = true;
+            mediaRecorder.stop();
+        }
+        isRecording = false;
+        // Stop all media tracks
+        webcamStream.getTracks().forEach(track => track.stop());
+        microphoneStream.getTracks().forEach(track => track.stop());
+
+        // Hide webcam container
+        document.getElementById('webcamContainer').style.display = 'none';
+
+        // Reset button text
+        document.getElementById('accessButton').innerText = 'Start Recording';
+
+        // Hide cancel button
+        document.getElementById('cancelButton').style.display = 'none';
+    }
+  
+  function displayThinkingGIF() {
+      var gifContainer = document.getElementById("gif-container");
+      var gifURL = "https://fonts.gstatic.com/s/e/notoemoji/latest/1f914/512.gif"; // Thinking face GIF
+      gifContainer.innerHTML = `
+          <img src="${gifURL}" alt="😴" width="300" height="300">`;
+  }
+
+  // Function to display resting face GIF
+  function displayRestingGIF() {
+      var gifContainer = document.getElementById("gif-container");
+      var gifURL = "https://fonts.gstatic.com/s/e/notoemoji/latest/1f634/512.gif"; // Resting face GIF
+      gifContainer.innerHTML = `
+          <img src="${gifURL}" alt="😴" width="300" height="300">`;
+  }
+
+  function displayNoneGIF() {
+      var gifContainer = document.getElementById("gif-container");
+      var gifURL = "https://fonts.gstatic.com/s/e/notoemoji/latest/1f642/512.gif"; // Resting face GIF
+      gifContainer.innerHTML = `
+          <img src="${gifURL}" alt="😴" width="300" height="300">`;
+  }
+
+  function displaySadGIF() {
+      var gifContainer = document.getElementById("gif-container");
+      var gifURL = "https://fonts.gstatic.com/s/e/notoemoji/latest/1f61e/512.gif"; // Resting face GIF
+      gifContainer.innerHTML = `
+          <img src="${gifURL}" alt="😴" width="300" height="300">`;
+  }
+  function displayHappyGIF() {
+      var gifContainer = document.getElementById("gif-container");
+      var gifURL = "https://fonts.gstatic.com/s/e/notoemoji/latest/1f603/512.gif"; // Resting face GIF
+      gifContainer.innerHTML = `
+          <img src="${gifURL}" alt="😴" width="300" height="300">`;
+  }
+  function displayLaughGIF() {
+      var gifContainer = document.getElementById("gif-container");
+      var gifURL = "https://fonts.gstatic.com/s/e/notoemoji/latest/1f602/512.gif"; // Resting face GIF
+      gifContainer.innerHTML = `
+          <img src="${gifURL}" alt="😴" width="300" height="300">`;
+  }
+  
+</script>
+</head>
+<body>
+<!-- Audio/Cam container -->
+
+<div id="infobox">
+<div id="webcamContainer">
+    <video id="webcamVideo" autoplay playsinline></video>
+</div>
+<div id="processedTextContainer">
+  <p id="querybox"></p>
+  <p id="subtitle-text"></p>
+</div>
+</div>
+
+<!-- Original content -->
+<div id="headd">
+<div id="hello-text">A I A R A</div> <!-- Add hello text -->
+<div id="robot-text">THE ROBOT</div> <!-- Add robot text -->
+</div>
+<div id="gif-container">
+    <picture>
+        <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/1f634/512.webp" type="image/webp">
+        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f634/512.gif" alt="😴" width="300" height="300">
+    </picture>
+</div>
+
+
+<!-- Button to toggle recording -->
+<button id="accessButton" onclick="toggleRecording()">Start Recording</button>
+<button id="cancelButton" style="display: none;" onclick="cancelRecording()">x</button>
+<div id="loading-container" style="display: none;">
+  <div id="loading-circle"></div>
+</div>
+</body>
+</html>
+  

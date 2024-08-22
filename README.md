@@ -1,1 +1,1 @@
-# AIARA
+AIARA - A Social Robot
